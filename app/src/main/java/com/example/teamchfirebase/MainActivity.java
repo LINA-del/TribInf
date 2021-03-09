@@ -37,15 +37,6 @@ public class MainActivity extends AppCompatActivity  {
         super.onStart();
     }
 
-
-
-
-
-
-
-
-
-
     //View holder to set recycleView
     //View holder c'est l'objet ou l'elem qui contient (Image , titre , description)
     public static class PostHolder extends RecyclerView.ViewHolder{
