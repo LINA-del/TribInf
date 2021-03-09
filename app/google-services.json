@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "398076157128",
+    "project_id": "teamchfirebase",
+    "storage_bucket": "teamchfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398076157128:android:cacd40a70512c81d5cd9fd",
+        "android_client_info": {
+          "package_name": "com.example.teamchfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398076157128-mimq5qbrrmdihl677nkkc1rdr8si0ig8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClrfU0xl2zF8I0OF-sC-hyInogioFKPMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398076157128-mimq5qbrrmdihl677nkkc1rdr8si0ig8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
