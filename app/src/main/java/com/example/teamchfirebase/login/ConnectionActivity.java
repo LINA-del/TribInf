@@ -1,13 +1,13 @@
 package com.example.teamchfirebase.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -26,27 +27,29 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ConnectionActivity extends AppCompatActivity {
     private static final String TAG = "Info";
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fb1, fb2, fb3;
-    private Button signup, login;
     private GoogleSignInClient mGoogleSignInClient;
-    private DatabaseReference mDatabase;
+    private static DatabaseReference mDatabase;
     private static final int RC_SIGN_IN = 10;
     private FirebaseAuth mAuth;
-    private EditText name;
-    private EditText email;
-    private EditText password;
+    private static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connection);
+        context = this.getApplicationContext();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -57,13 +60,7 @@ public class ConnectionActivity extends AppCompatActivity {
         fb1 = findViewById(R.id.fb1);
         fb2 = findViewById(R.id.fb2);
         fb3 = findViewById(R.id.fb3);
-        signup = findViewById(R.id.buttonSignUp);
-        login = findViewById(R.id.buttonLogIn);
-        name = findViewById(R.id.Nom);
-        email = findViewById(R.id.Email2);
-        password = findViewById(R.id.Pass2);
         fb3.setOnClickListener(this::fireBaseAuthGoogle);
-
         //mise en place des tabs de log in et de sign in
         tabLayout.addTab(tabLayout.newTab().setText("LOGIN"));
         tabLayout.addTab(tabLayout.newTab().setText("SIGNUP"));
@@ -86,7 +83,21 @@ public class ConnectionActivity extends AppCompatActivity {
         fb2.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
         fb3.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(800).start();
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                //   String value = dataSnapshot.child("users").child("Malikour").child("password").getValue(String.class);
+                // Log.d(TAG, "Value is: " + value);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
     public void createRequest() {
@@ -129,8 +140,9 @@ public class ConnectionActivity extends AppCompatActivity {
         //  startActivityForResult(signInIntent, RC_SIGN_IN);
         // Toast.makeText(this, "No login", Toast.LENGTH_SHORT).show();
         //writeNewUser("", name.getText().toString(), email.getText().toString(), password.getText().toString());
-        String test = name.getText().toString();
-        Toast.makeText(this, "" + test, Toast.LENGTH_SHORT).show();
+        // name.setText("0");
+        //  String test = name.getText().toString().trim();
+        //Toast.makeText(this, "" + test, Toast.LENGTH_SHORT).show();
     }
 
     public void customLogIn(View view) {
@@ -178,11 +190,25 @@ public class ConnectionActivity extends AppCompatActivity {
                 });
     }
 
-    public void writeNewUser(String userId, String name, String email, String password) {
+    public static void writeNewUser(String userId, String name, String email, String password) {
         User user = new User(name, email, password);
 
-        //  mDatabase.child("users").child(userId).setValue(user);
+        mDatabase.child("users").child(name).setValue(user);
     }
+    // Read from the database
 
+    public static void checkUser(String username, String password) {
 
+        mDatabase.child("users").child(username).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            } else {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                if (password.equals(String.valueOf(task.getResult().child("password").getValue()))) {
+                    Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(context, "No login", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
