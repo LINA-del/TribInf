@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout
         android:layout_margin="12dp"
@@ -22,18 +24,87 @@
             android:textStyle="bold"
             android:layout_margin="15dp"
             android:hint="Title"
+            android:textSize="30sp"
+            android:textColorHint="@color/purple_700"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/titree_recycleView"
        />
+
         <TextView
-            android:padding="10dp"
-            android:layout_margin="15dp"
-            android:hint="description"
+            android:id="@+id/description_recycleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/description_recycleView"/>
 
+            android:layout_margin="15dp"
+            android:hint="Description"
+            android:padding="10dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintllyaout"
+            android:layout_width="match_parent"
+            android:layout_height="327dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/add_commentdesign"
+                android:hint="Add comment"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycll" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycll"
+                android:layout_width="259dp"
+                android:layout_height="215dp"
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="21dp"
+                android:background="@color/purple_200"
+                android:backgroundTint="#009688"
+                app:layout_constraintBottom_toBottomOf="@+id/comment"
+                app:layout_constraintEnd_toEndOf="@+id/comment"
+                app:layout_constraintHorizontal_bias="0.971"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/comment"
+                app:layout_constraintVertical_bias="0.1"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <![CDATA[
+
+
+
+
+
+
+
+       />
+
+
+
+
+
+
+    ]]>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
