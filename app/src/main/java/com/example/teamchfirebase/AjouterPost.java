@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.teamchfirebase.bean.Post;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +26,8 @@ import com.google.firebase.storage.UploadTask;
 public class AjouterPost extends AppCompatActivity  {
     private ImageButton addPost;
     private static final int reponse_Gallerie =1 ;
-    Uri ImageUri = null ;
+    private Uri ImageUri = null ;
+    private Intent ajouterIntent;
     private EditText title;
     private  EditText description;
     private Button submit;
@@ -46,6 +48,7 @@ public class AjouterPost extends AppCompatActivity  {
         description=(EditText)findViewById(R.id.editTextTextPersonName2);
         submit = (Button)findViewById(R.id.button);
 
+        ajouterIntent = getIntent();
         // acces au stockage dans firebase
         myFirebaseStorage= FirebaseStorage.getInstance().getReference();
         addPost=(ImageButton)findViewById(R.id.imageView3);
@@ -96,22 +99,35 @@ public class AjouterPost extends AppCompatActivity  {
             //PostImage : nom de dossier , getLastPathSegment(): retourne le nom de l'image
             // mettre un nom aléatoire pour chaque nouvelle image pour ne pea sles confondre
             final String random_value= database.push().getKey();
-            StorageReference Emplecement_fichier = myFirebaseStorage.child("PostImage").child(ImageUri.getLastPathSegment()+random_value);
-            Emplecement_fichier.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    //here
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
+            if(ImageUri != null){
 
-                    final String sdownload_url = String.valueOf(downloadUrl);
-                    if(ImageUri!=null){
-                    database.child("Post"+random_value).child("Image").setValue(sdownload_url);}
-                }});
-            database.child("Post"+random_value).child("Titre").setValue(contenu_title);
-            database.child("Post"+random_value).child("Description").setValue(contenu_descrip);
+                StorageReference Emplecement_fichier = myFirebaseStorage.child("PostImage").child(ImageUri.getLastPathSegment()+random_value);
+                Emplecement_fichier.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //here
+                        Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!urlTask.isSuccessful());
+                        Uri downloadUrl = urlTask.getResult();
+                        final String sdownload_url = String.valueOf(downloadUrl);
+                        Post mPost = new Post();
+                        mPost.setImage(sdownload_url);
+                        mPost.setDescription(contenu_descrip);
+                        mPost.setTitre(contenu_title);
+                        database.child(random_value).setValue(mPost);
+
+                    }
+                });
+
+            }else{
+                Post mPost = new Post();
+                mPost.setDescription(contenu_descrip);
+                mPost.setTitre(contenu_title);
+                database.child(random_value).setValue(mPost);
+            }
+
+
 
             //d.child("description").setValue(contenu_descrip);
 
@@ -121,6 +137,11 @@ public class AjouterPost extends AppCompatActivity  {
 
 
             Button_attente.dismiss();
+
+            setResult(RESULT_OK, ajouterIntent);
+            finish();
+
+
             //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
 
