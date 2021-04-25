@@ -180,7 +180,10 @@ public class ConnectionActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        // boolean newUser = task.getResult().getAdditionalUserInfo().isNewUser();
+                        boolean newUser = task.getResult().getAdditionalUserInfo().isNewUser();
+                        if (newUser) {
+                            //writeNewUser("", user.getEmail(), user.getEmail(), "");
+                        }
                         updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
@@ -206,6 +209,7 @@ public class ConnectionActivity extends AppCompatActivity {
                 Log.d("firebase", String.valueOf(task.getResult().getValue()));
                 if (password.equals(String.valueOf(task.getResult().child("password").getValue()))) {
                     Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
+
                 } else
                     Toast.makeText(context, "No login", Toast.LENGTH_SHORT).show();
             }
