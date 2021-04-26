@@ -2,34 +2,40 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gris"
+
+    android:backgroundTint="#4BDCD7D7">
+
     <LinearLayout
-        android:layout_margin="12dp"
+        android:background="@drawable/relative_lay_designe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/holderborder">
+        android:layout_margin="12dp"
+
+        android:backgroundTint="#FFFFFF"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_margin="15dp"
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="21dp"
             android:adjustViewBounds="true"
             android:background="@mipmap/add_btn"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_margin="15dp"
-            android:hint="Title"
-            android:textSize="30sp"
-            android:textColorHint="@color/purple_700"
+            android:id="@+id/titree_recycleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/titree_recycleView"
-       />
+            android:layout_margin="15dp"
+            android:hint="Title"
+            android:padding="10dp"
+            android:textColorHint="@color/purple_700"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/description_recycleView"
@@ -42,11 +48,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintllyaout"
+
             android:layout_width="match_parent"
             android:layout_height="327dp"
-            android:background="#FFFFFF">
+            >
 
-            <TextView
+            <EditText
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,8 +80,9 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <ImageButton
-                android:id="@+id/imageButton"
+            <ImageView
+                android:id="@+id/imageButton2"
+
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"

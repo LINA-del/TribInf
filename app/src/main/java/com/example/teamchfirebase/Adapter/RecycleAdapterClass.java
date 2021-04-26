@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ public class RecycleAdapterClass extends RecyclerView.Adapter<RecycleAdapterClas
 
     @NonNull
     @Override
-    //View holder to set recycleViewat
+    //View holder to set recycleView at
     //View holder c'est l'objet ou l'elem qui contient (Image , titre , description)
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // specifier l'emplacement de layout utilise
@@ -44,9 +45,12 @@ public class RecycleAdapterClass extends RecyclerView.Adapter<RecycleAdapterClas
        String titre = mPost.getTitre();
        String desc = mPost.getDescription();
        String image = mPost.getImage();
+       String comment = mPost.getComment();
        //replir le holder
        holder.title_holder.setText(titre);
        holder.Desc_holder.setText(desc);
+       holder.comment_holder.setText(comment);
+
 
        if(image == null){
            // cacher le champ image s'il n y a pas d'image
@@ -67,6 +71,7 @@ public class RecycleAdapterClass extends RecyclerView.Adapter<RecycleAdapterClas
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView title_holder , Desc_holder;
         public ImageView imagePost;
+        public EditText comment_holder;
         View mview;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +80,7 @@ public class RecycleAdapterClass extends RecyclerView.Adapter<RecycleAdapterClas
             title_holder = mview.findViewById(R.id.titree_recycleView);
             Desc_holder = mview.findViewById(R.id.description_recycleView);
             imagePost = mview.findViewById(R.id.post_image);
+            comment_holder=mview.findViewById(R.id.comment);
         }
 
 
